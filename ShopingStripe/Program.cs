@@ -1,8 +1,9 @@
 using Microsoft.EntityFrameworkCore;
-using PaymentTest.Components;
-using PaymentTest.Data.Context;
-using PaymentTest.Infrastructure;
-using PaymentTest.Services;
+using ShoppingStripe.Components;
+using ShoppingStripe.Data.Context;
+using ShoppingStripe.Infrastructure;
+using ShoppingStripe.Services;
+
 
 var builder = WebApplication.CreateBuilder(args);
 

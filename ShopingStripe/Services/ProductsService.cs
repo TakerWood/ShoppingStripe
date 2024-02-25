@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
-using PaymentTest.Data.Context;
-using PaymentTest.Data.Entities;
-using PaymentTest.Infrastructure;
+using ShoppingStripe.Data.Context;
+using ShoppingStripe.Data.Entities;
+using ShoppingStripe.Infrastructure;
 
-namespace PaymentTest.Services;
+namespace ShoppingStripe.Services;
 
 public class ProductsService : IProductsService
 {

@@ -1,4 +1,4 @@
-namespace PaymentTest.Models;
+namespace ShoppingStripe.Models;
 
 public class CartItem
 {

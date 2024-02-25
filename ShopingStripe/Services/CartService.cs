@@ -1,8 +1,8 @@
-using PaymentTest.Data.Entities;
-using PaymentTest.Infrastructure;
-using PaymentTest.Models;
+using ShoppingStripe.Data.Entities;
+using ShoppingStripe.Infrastructure;
+using ShoppingStripe.Models;
 
-namespace PaymentTest.Services;
+namespace ShoppingStripe.Services;
 
 public class CartService : ICartService
 {

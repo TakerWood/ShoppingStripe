@@ -1,6 +1,6 @@
-using PaymentTest.Data.Entities;
+using ShoppingStripe.Data.Entities;
 
-namespace PaymentTest.Infrastructure;
+namespace ShoppingStripe.Infrastructure;
 
 public interface ICartService
 {

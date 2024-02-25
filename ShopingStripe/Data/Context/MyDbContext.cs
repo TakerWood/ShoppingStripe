@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PaymentTest.Data.Entities;
+using ShoppingStripe.Data.Entities;
 
-namespace PaymentTest.Data.Context;
+namespace ShoppingStripe.Data.Context;
 
 public partial class MyDbContext : DbContext
 {

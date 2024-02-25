@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Stripe;
 using Stripe.Checkout;
 
-namespace PaymentTest.Controllers;
+namespace ShoppingStripe.Services;
 
 public class PaymentsService : Controller
 {

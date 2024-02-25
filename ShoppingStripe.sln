@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentTest", "PaymentTest\PaymentTest.csproj", "{4EB4214B-EABA-4D4E-804E-27F61F24B0BD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShopingStripe", "ShopingStripe\ShopingStripe.csproj", "{4EB4214B-EABA-4D4E-804E-27F61F24B0BD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

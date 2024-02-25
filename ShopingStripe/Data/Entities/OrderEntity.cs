@@ -1,4 +1,4 @@
-﻿namespace PaymentTest.Data.Entities;
+﻿namespace ShoppingStripe.Data.Entities;
 
 public partial class OrderEntity
 {
