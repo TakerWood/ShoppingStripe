@@ -1,0 +1,41 @@
+﻿@page "/"
+@using PaymentTest.Infrastructure
+@using PaymentTest.Data.Entities
+@inject IProductsService ServiceProduct
+@inject ICartService CartService
+
+@if (_products is not null)
+{
+    foreach (var product in _products)
+    {
+        <div>
+            <h3>@product.Name</h3>
+            <p>@product.Price$</p>
+            <img width="150px" src="@product.Imageurl" alt=""/>
+            <button @onclick="() => AddToCart(product)">Add to Cart</button>
+        </div>
+    }
+}
+else
+{
+    <p>Loading...</p>
+}
+
+@code {
+    
+    private readonly CancellationTokenSource _cts = new();
+    private List<ProductEntity>? _products;
+
+    protected override async Task OnInitializedAsync()
+    {
+        //todo write pagination logic
+        _products = await ServiceProduct.GetProductsAsync(0, 36, _cts.Token);
+    }
+    
+    private void AddToCart(ProductEntity product)
+    { 
+        CartService.AddToCartAsync(product, 1, _cts.Token);
+    }
+}
+
+
