@@ -2,7 +2,6 @@
 @inject IProductsService ServiceProduct
 @inject ICartService CartService
 
-
 @if (_products is not null)
 {
     foreach (var product in _products)
@@ -11,7 +10,7 @@
             <h3>@product.Name</h3>
             <p>@product.Price$</p>
             <img width="150px" src="@product.Imageurl" alt=""/>
-            <button style="background-color:pink;" @onclick=" async () => await AddToCart(product)">Add to Cart</button>
+            <button style="background-color:pink;" @onclick="() => AddToCart(product)">Add to Cart</button>
         </div>
     }
 }
@@ -34,13 +33,15 @@ else
     private readonly CancellationTokenSource _cts = new();
     private List<ProductEntity>? _products;
     
-    async Task AddToCart(ProductEntity product)
+    private void AddToCart(ProductEntity product)
     { 
-        await CartService.AddToCartAsync(product, 1, _cts.Token);
+        Console.WriteLine("test");
+        CartService.AddToCart(product, 1);
     }
     
-    async Task OpenCart()
+   private void OpenCart()
     {
+        Console.WriteLine("test");
         _isCartOpen = true;
     }
 
@@ -49,8 +50,6 @@ else
         //todo write pagination logic
         _products = await ServiceProduct.GetProductsAsync(0, 36, _cts.Token);
     }
-    
-
 }
 
 

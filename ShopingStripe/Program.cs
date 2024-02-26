@@ -15,7 +15,11 @@ builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.Services.AddMvc();
+builder.Services.AddMvc().AddRazorPagesOptions(options =>
+{
+    options.Conventions.AddPageRoute("/product", "");
+});
+
 builder.Services.AddControllers();
 
 //Db

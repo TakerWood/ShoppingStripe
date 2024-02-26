@@ -10,12 +10,7 @@ public class CartService : ICartService
 
     public IReadOnlyList<CartItem> CartItems => _cartItems.AsReadOnly();
 
-    public CartService()
-    {
-        
-    }
-
-    public async Task AddToCartAsync(ProductEntity product, int qty, CancellationToken cancellationToken)
+    public void AddToCart(ProductEntity product, int qty)
     {
         var existingItem = _cartItems.FirstOrDefault(item => item.ProductId == product.Id);
 
