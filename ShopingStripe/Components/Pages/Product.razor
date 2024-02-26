@@ -2,15 +2,16 @@
 @inject IProductsService ServiceProduct
 @inject ICartService CartService
 
+
 @if (_products is not null)
 {
     foreach (var product in _products)
     {
-        <div>
+        <div style="margin-left: 80px">
             <h3>@product.Name</h3>
             <p>@product.Price$</p>
             <img width="150px" src="@product.Imageurl" alt=""/>
-            <button style="background-color:pink;" @onclick="() => AddToCart(product)">Add to Cart</button>
+            <button style="background-color:pink;" @onclick=" async () => await AddToCart(product)">Add to Cart</button>
         </div>
     }
 }
@@ -19,10 +20,29 @@ else
     <p>Loading...</p>
 }
 
+<button style="margin-left: 100px;" @onclick="OpenCart" >
+    <img style="width: 80px;" src="https://media.istockphoto.com/id/1206806317/vector/shopping-cart-icon-isolated-on-white-background.jpg?s=612x612&w=0&k=20&c=1RRQJs5NDhcB67necQn1WCpJX2YMfWZ4rYi1DFKlkNA=" alt=""/>
+</button>
+
+@if (_isCartOpen)
+{
+    <Cart/>
+}
+
 @code {
-    
+    private bool _isCartOpen = false;
     private readonly CancellationTokenSource _cts = new();
     private List<ProductEntity>? _products;
+    
+    async Task AddToCart(ProductEntity product)
+    { 
+        await CartService.AddToCartAsync(product, 1, _cts.Token);
+    }
+    
+    async Task OpenCart()
+    {
+        _isCartOpen = true;
+    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -30,10 +50,7 @@ else
         _products = await ServiceProduct.GetProductsAsync(0, 36, _cts.Token);
     }
     
-    private void AddToCart(ProductEntity product)
-    { 
-        CartService.AddToCartAsync(product, 1, _cts.Token);
-    }
+
 }
 
 

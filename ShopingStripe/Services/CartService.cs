@@ -6,9 +6,9 @@ namespace ShoppingStripe.Services;
 
 public class CartService : ICartService
 {
-    private List<CartItem> cartItems = new List<CartItem>();
+    private readonly List<CartItem> _cartItems = new();
 
-    public IReadOnlyList<CartItem> CartItems => cartItems.AsReadOnly();
+    public IReadOnlyList<CartItem> CartItems => _cartItems.AsReadOnly();
 
     public CartService()
     {
@@ -17,7 +17,7 @@ public class CartService : ICartService
 
     public async Task AddToCartAsync(ProductEntity product, int qty, CancellationToken cancellationToken)
     {
-        var existingItem = cartItems.FirstOrDefault(item => item.ProductId == product.Id);
+        var existingItem = _cartItems.FirstOrDefault(item => item.ProductId == product.Id);
 
         if (existingItem != null)
         {
@@ -33,7 +33,7 @@ public class CartService : ICartService
                 TotalAmount = product.Price * qty
             };
 
-            cartItems.Add(newItem);
+            _cartItems.Add(newItem);
         }
     }
 }

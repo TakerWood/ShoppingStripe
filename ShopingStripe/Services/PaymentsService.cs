@@ -1,10 +1,10 @@
-using Microsoft.AspNetCore.Mvc;
+using ShoppingStripe.Infrastructure;
 using Stripe;
 using Stripe.Checkout;
 
 namespace ShoppingStripe.Services;
 
-public class PaymentsService : Controller
+public class PaymentsService : IPaymentsService
 {
     private readonly IConfiguration _configuration;
     
@@ -13,9 +13,7 @@ public class PaymentsService : Controller
         _configuration = configuration;
     }
 
-    [HttpPost]
-    [Route("api/payments/createCheckout")]
-    public async Task<ActionResult<string>> CreateCheckoutSession()
+    public async Task<string> CreateCheckoutSession()
     {
         StripeConfiguration.ApiKey = _configuration["StripeConfiguration:SecretKey"];
         
@@ -44,6 +42,6 @@ public class PaymentsService : Controller
 
         var service = new SessionService();
         var session = await service.CreateAsync(options);
-        return Ok(session.Url);
+        return session.Url;
     }
 }
