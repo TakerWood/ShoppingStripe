@@ -1,12 +1,16 @@
 ﻿namespace ShoppingStripe.Data.Entities;
 
-public partial class CustomerEntity
+public class CustomerEntity
 {
     public int Id { get; set; }
 
-    public string FirstName { get; set; } = null!;
+    public string Firstname { get; set; } = null!;
 
-    public string LastName { get; set; } = null!;
+    public string Lastname { get; set; } = null!;
 
-    public DateOnly? DateBirthday { get; set; }
+    public string Country { get; set; } = null!;
+
+    public string City { get; set; } = null!;
+
+    public DateOnly? Datebirthday { get; set; }
 }

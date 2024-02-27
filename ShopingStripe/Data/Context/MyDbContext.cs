@@ -25,7 +25,7 @@ public partial class MyDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<CustomerEntity>(entity =>
+         modelBuilder.Entity<CustomerEntity>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("customer_pkey");
 
@@ -34,28 +34,39 @@ public partial class MyDbContext : DbContext
             entity.Property(e => e.Id)
                 .ValueGeneratedNever()
                 .HasColumnName("id");
-            entity.Property(e => e.DateBirthday).HasColumnName("datebirthday");
-            entity.Property(e => e.FirstName)
+            entity.Property(e => e.City)
+                .HasColumnType("character varying")
+                .HasColumnName("city");
+            entity.Property(e => e.Country)
+                .HasColumnType("character varying")
+                .HasColumnName("country");
+            entity.Property(e => e.Datebirthday).HasColumnName("datebirthday");
+            entity.Property(e => e.Firstname)
                 .HasColumnType("character varying")
                 .HasColumnName("firstname");
-            entity.Property(e => e.LastName)
+            entity.Property(e => e.Lastname)
                 .HasColumnType("character varying")
                 .HasColumnName("lastname");
         });
 
         modelBuilder.Entity<OrderEntity>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("orders_pkey");
+            entity.HasKey(e => e.Id).HasName("order_pkey");
 
-            entity.ToTable("orders", "dbo");
+            entity.ToTable("order", "dbo");
 
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.CustomerId).HasColumnName("customerid");
-            entity.Property(e => e.OrderDate)
+            entity.HasIndex(e => e.Customerid, "idx_customerid");
+
+            entity.Property(e => e.Id)
+                .ValueGeneratedNever()
+                .HasColumnName("id");
+            entity.Property(e => e.Customerid).HasColumnName("customerid");
+            entity.Property(e => e.Deliverytype).HasColumnName("deliverytype");
+            entity.Property(e => e.Orderdate)
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("orderdate");
-            entity.Property(e => e.ProductId).HasColumnName("productid");
-            entity.Property(e => e.TotalAmount).HasColumnName("totalamount");
+            entity.Property(e => e.Paymenttype).HasColumnName("paymenttype");
+            entity.Property(e => e.Totalamount).HasColumnName("totalamount");
         });
 
         modelBuilder.Entity<ProductEntity>(entity =>
@@ -65,17 +76,16 @@ public partial class MyDbContext : DbContext
             entity.ToTable("product", "dbo");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.Imageurl)
-                .HasColumnType("character varying")
-                .HasColumnName("imageurl");
-            entity.Property(e => e.Name)
-                .HasColumnType("character varying")
-                .HasColumnName("name");
+            entity.Property(e => e.Orderid).HasColumnName("orderid");
             entity.Property(e => e.Price).HasColumnName("price");
+            entity.Property(e => e.Productid).HasColumnName("productid");
+            entity.Property(e => e.Quantity).HasColumnName("quantity");
+            entity.Property(e => e.Totalamount).HasColumnName("totalamount");
         });
         modelBuilder.HasSequence("your_table_id_seq");
 
         OnModelCreatingPartial(modelBuilder);
     }
+
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }

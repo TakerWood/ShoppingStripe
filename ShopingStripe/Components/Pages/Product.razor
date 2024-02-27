@@ -1,6 +1,10 @@
 ﻿@page "/"
+@using ShoppingStripe.Models
 @inject IProductsService ServiceProduct
 @inject ICartService CartService
+@rendermode InteractiveServer
+@inject NavigationManager NavigationManager
+
 
 @if (_products is not null)
 {
@@ -16,39 +20,30 @@
 }
 else
 {
-    <p>Loading...</p>
+    <p>In progress...</p>
 }
 
-<button style="margin-left: 100px;" @onclick="OpenCart" >
+<button style="margin-left: 100px; margin-top: 20px" @onclick="CartPage" >
     <img style="width: 80px;" src="https://media.istockphoto.com/id/1206806317/vector/shopping-cart-icon-isolated-on-white-background.jpg?s=612x612&w=0&k=20&c=1RRQJs5NDhcB67necQn1WCpJX2YMfWZ4rYi1DFKlkNA=" alt=""/>
 </button>
 
-@if (_isCartOpen)
-{
-    <Cart/>
-}
-
 @code {
-    private bool _isCartOpen = false;
-    private readonly CancellationTokenSource _cts = new();
-    private List<ProductEntity>? _products;
+    private bool _isCartOpen = true;
+    private List<ProductResponse>? _products;
     
-    private void AddToCart(ProductEntity product)
+    private void AddToCart(ProductResponse product)
     { 
-        Console.WriteLine("test");
         CartService.AddToCart(product, 1);
     }
     
-   private void OpenCart()
+    private void CartPage()
     {
-        Console.WriteLine("test");
-        _isCartOpen = true;
+        NavigationManager.NavigateTo("/cart");
     }
 
-    protected override async Task OnInitializedAsync()
+    protected async override Task OnInitializedAsync()
     {
-        //todo write pagination logic
-        _products = await ServiceProduct.GetProductsAsync(0, 36, _cts.Token);
+        _products = ServiceProduct.GetProductsAsync();
     }
 }
 

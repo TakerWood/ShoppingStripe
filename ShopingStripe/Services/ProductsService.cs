@@ -1,44 +1,35 @@
-using Microsoft.EntityFrameworkCore;
-using ShoppingStripe.Data.Context;
-using ShoppingStripe.Data.Entities;
 using ShoppingStripe.Infrastructure;
+using ShoppingStripe.Models;
 
 namespace ShoppingStripe.Services;
 
 public class ProductsService : IProductsService
 {
-    private readonly MyDbContext _dbContext;
-
-    public ProductsService(MyDbContext dbContext)
+    public List<ProductResponse> GetProductsAsync()
     {
-        _dbContext = dbContext;
-    }
-    
-    public async Task<List<ProductEntity>> GetProductsAsync(int page,int pageSize, 
-        CancellationToken cancellationToken)
-    {
-        var response = await _dbContext.Products.AsNoTracking().ToListAsync(cancellationToken);
-        
-        response = response.Skip(page * pageSize).Take(pageSize).ToList();
-        
-        //todo check if null + add log
-        
-        return response;
-    }
-    
-    public async Task SetProductAsync(ProductEntity product, CancellationToken cancellationToken)
-    {
-        try
+        return new List<ProductResponse>
         {
-            await _dbContext.Products.AddAsync(product, cancellationToken);
-            await _dbContext.SaveChangesAsync(cancellationToken);
-        }
-        catch (Exception e)
-        {
-            //todo add log
-            Console.WriteLine(e.InnerException!.Message);
-            throw;
-        }
-
+            new()
+            {
+                Id = 1,
+                Name = "Iphone 11",
+                Imageurl = "https://content.rozetka.com.ua/goods/images/big/37399220.jpg",
+                Price = 350
+            },
+            new()
+            {
+                Id = 2,
+                Name = "Iphone XR",
+                Imageurl = "https://content1.rozetka.com.ua/goods/images/big/364834195.jpg",
+                Price = 630
+            },
+            new()
+            {
+                Id = 3,
+                Name = "Iphone 12 Pro",
+                Imageurl = "https://www.apple.com/newsroom/images/product/iphone/standard/iPhone_XR_white-back_09122018_carousel.jpg.large.jpg",
+                Price = 170
+            }
+        };
     }
 }

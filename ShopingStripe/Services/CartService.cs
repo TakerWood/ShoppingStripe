@@ -1,4 +1,3 @@
-using ShoppingStripe.Data.Entities;
 using ShoppingStripe.Infrastructure;
 using ShoppingStripe.Models;
 
@@ -6,11 +5,14 @@ namespace ShoppingStripe.Services;
 
 public class CartService : ICartService
 {
-    private readonly List<CartItem> _cartItems = new();
+    private readonly List<CartItem> _cartItems;
 
-    public IReadOnlyList<CartItem> CartItems => _cartItems.AsReadOnly();
+    public CartService()
+    {
+        _cartItems = new List<CartItem>();
+    }
 
-    public void AddToCart(ProductEntity product, int qty)
+    public void AddToCart(ProductResponse product, int qty)
     {
         var existingItem = _cartItems.FirstOrDefault(item => item.ProductId == product.Id);
 
@@ -25,10 +27,15 @@ public class CartService : ICartService
                 ProductId = product.Id,
                 ProductName = product.Name,
                 Qty = qty,
-                TotalAmount = product.Price * qty
+                Price = product.Price
             };
 
             _cartItems.Add(newItem);
         }
+    }
+    
+    public List<CartItem> GetCartItems()
+    {
+        return _cartItems;
     }
 }

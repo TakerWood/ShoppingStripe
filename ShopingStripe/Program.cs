@@ -7,26 +7,25 @@ using ShoppingStripe.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//SERVICES
-builder.Services.AddScoped<IProductsService, ProductsService>();
-builder.Services.AddScoped<ICartService, CartService>();
-
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.Services.AddMvc().AddRazorPagesOptions(options =>
-{
-    options.Conventions.AddPageRoute("/product", "");
-});
+builder.Services.AddMvc();
 
 builder.Services.AddControllers();
 
 //Db
 builder.Services.AddDbContext<MyDbContext>(opt =>
 {
-    opt.UseNpgsql(builder.Configuration.GetConnectionString("ConnectionDataBase:MasterData"));
+    opt.UseNpgsql(builder.Configuration.GetConnectionString("MasterData"));
 });
+
+//SERVICES
+builder.Services.AddScoped<IProductsService, ProductsService>();
+builder.Services.AddTransient<IOrderService, OrderService>();
+builder.Services.AddTransient<IPaymentsService, PaymentsService>();
+builder.Services.AddScoped<ICartService, CartService>();
 
 var app = builder.Build();
 

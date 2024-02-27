@@ -1,11 +1,45 @@
 @page "/cart"
-@inject ICartService CartService
+@using ShoppingStripe.Models;
+@inject ICartService CartService;
+@rendermode InteractiveServer
 
 
-<h3>Cart</h3>
+<div>
+    @if (_cartItems is not null && _cartItems.Count > 0)
+    {
+        @foreach (var item in _cartItems)
+        {
+            <div style="margin-left: 100px">
+                <p>ProductName: @item.ProductName</p>
+                <p>Quantity: @item.Qty</p>
+                <p>Price: @item.Price$</p>
+            </div>
+        }
+        
+        <h3 style="margin-left: 180px">TotalAmount: @_totalAmount$</h3>
+    }
+    else
+    {
+        <h1>Your cart is empty</h1>
+    }
+</div>
 
+<button style="margin-left: 180px; background-color: #0f5132;" @onclick="OrderPage" disabled="@(_totalAmount <= 0)">Create Order</button>
 
 
 @code {
+    private List<CartItem>? _cartItems;
+    decimal _totalAmount;
 
+    
+    private void OrderPage()
+    {
+        NavigationManager.NavigateTo("/order");
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        _cartItems = CartService.GetCartItems();
+        _totalAmount = _cartItems.Sum(x => x.Price * x.Qty);
+    }
 }

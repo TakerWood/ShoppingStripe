@@ -1,0 +1,62 @@
+@page "/order"
+@using ShoppingStripe.Models.Enums
+@using ShoppingStripe.Models
+@inject IPaymentsService PaymentService;
+@inject IOrderService OrderService;
+@rendermode InteractiveServer
+
+
+<h3>Delivery and Customer info:</h3>
+<div>
+    <label for="firstName">First Name:</label>
+    <input type="text" id="firstName" @bind="_customerInfo.Firstname" />
+    
+    <label for="lastName">Last Name:</label>
+    <input type="text" id="lastName" @bind="_customerInfo.Lastname" />
+    
+    <label for="lastName">Country:</label>
+    <input type="text" id="country" @bind="_customerInfo.Country" />
+    
+        <label for="lastName">City:</label>
+        <input type="text" id="city" @bind="_customerInfo.City" />
+    
+    <label for="lastName">Date Birthday:</label>
+    <input type="text" id="lastName" @bind="_customerInfo.Datebirthday" />
+
+    <label for="deliveryType">Delivery Type:</label>
+    <select id="deliveryType" @bind="_deliveryType">
+        <option value="@(_deliveryType = DeliveryType.Standard)">Standard Delivery</option>
+        <option value="@(_deliveryType = DeliveryType.Express)">Express Delivery</option>
+    </select>
+    
+    <label for="paymentType">Delivery Type:</label>
+    <select id="paymentType" @bind="_paymentType">
+        <option value="@(_paymentType = PaymentType.Cash)">Cash</option>
+        <option value="@(_paymentType = PaymentType.Card)">Card</option>
+    </select>
+    
+    <button type="button" @onclick="SubmitForm">Submit</button>
+</div>
+
+
+@code {
+    DeliveryType _deliveryType;
+    PaymentType _paymentType;
+    readonly CustomerEntity _customerInfo = new();
+    
+    private async Task SubmitForm()
+    {
+        await OrderService.AddOrderAsync(new OrderDetails
+        {
+            Customer = _customerInfo,
+            DeliveryType = _deliveryType,
+            PaymentType = _paymentType
+        }, new CancellationToken());
+        
+        if (_paymentType == PaymentType.Card)
+        {
+            var url =  await PaymentService.CreateCheckoutSession();
+            NavigationManager.NavigateTo($"{url}");
+        }
+    }
+}

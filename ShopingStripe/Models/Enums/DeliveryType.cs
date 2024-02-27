@@ -2,6 +2,6 @@ namespace ShoppingStripe.Models.Enums;
 
 public enum DeliveryType
 {
-    SelfPickup = 1,
-    AmazonPost = 2
+    Standard = 1,
+    Express = 2
 }

@@ -1,14 +1,16 @@
 ﻿namespace ShoppingStripe.Data.Entities;
 
-public partial class OrderEntity
+public class OrderEntity
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 
-    public int? CustomerId { get; set; }
+    public int? Customerid { get; set; }
 
-    public int? ProductId { get; set; }
+    public decimal? Totalamount { get; set; }
 
-    public decimal? TotalAmount { get; set; }
+    public DateTime? Orderdate { get; set; }
 
-    public DateTime? OrderDate { get; set; }
+    public int? Deliverytype { get; set; }
+
+    public int? Paymenttype { get; set; }
 }
